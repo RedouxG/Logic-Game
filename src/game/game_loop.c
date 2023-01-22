@@ -23,11 +23,15 @@ SDL_Renderer* init_renderer(SDL_Window *window)
 
 void handle_key_event(const u8* keysPressed)
 {
-    if (keysPressed[SDL_SCANCODE_A]) { game_move_player((vec2){-1,0}); } // Move left
-    if (keysPressed[SDL_SCANCODE_W]) { game_move_player((vec2){0,-1}); } // Move up
-    if (keysPressed[SDL_SCANCODE_S]) { game_move_player((vec2){0,1});  } // Move down
-    if (keysPressed[SDL_SCANCODE_D]) { game_move_player((vec2){1,0});  } // Move right
-    if (keysPressed[SDL_SCANCODE_R]) { game_restart_level(); } // Restart level
+    if (GLOBAL.DelayFrames>0) { return; }
+    else if (keysPressed[SDL_SCANCODE_A]) { game_move_player((vec2){-1,0}); } // Move left
+    else if (keysPressed[SDL_SCANCODE_W]) { game_move_player((vec2){0,-1}); } // Move up
+    else if (keysPressed[SDL_SCANCODE_S]) { game_move_player((vec2){0,1});  } // Move down
+    else if (keysPressed[SDL_SCANCODE_D]) { game_move_player((vec2){1,0});  } // Move right
+    else if (keysPressed[SDL_SCANCODE_R]) { game_restart_level(); } // Restart level
+    else { return; } // No action
+
+    GLOBAL.DelayFrames = GLOBAL.FRAME_DELAY;
 }
 
 
@@ -51,6 +55,7 @@ void start_game_loop()
     bool shouldQuit = false;
     while(!shouldQuit)
     {
+        if (GLOBAL.DelayFrames>0) { GLOBAL.DelayFrames--; }
         // Event handling
         while (SDL_PollEvent(&event)) 
         { 
@@ -66,8 +71,12 @@ void start_game_loop()
         SDL_RenderClear(renderer);
             
         // Update render
-        game_render_map(renderer, GLOBAL.GameState.CurrentMap, GLOBAL.MAP_DATA.WIDTH, GLOBAL.MAP_DATA.HEIGHT);
-        game_render_player(renderer, GLOBAL.GameState.PlayerPos);
+        if (!GLOBAL.GameState.Won)
+        {
+            game_render_map(renderer, GLOBAL.GameState.CurrentMap, GLOBAL.MAP_DATA.WIDTH, GLOBAL.MAP_DATA.HEIGHT);
+            game_render_player(renderer, GLOBAL.GameState.PlayerPos);
+        } else
+        { game_render_win(renderer); }
 
         // Draw render
         SDL_RenderPresent(renderer);

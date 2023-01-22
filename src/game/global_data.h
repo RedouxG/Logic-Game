@@ -47,15 +47,17 @@ typedef struct _game_state {
     i32 *CurrentMap;
     vec2 PlayerPos;
     vec2 WinPos;
-    u32 Retries;
+    bool Won;
 } _game_state;
 
 
 /* GLOBAL DATA */
 typedef struct _global {
     const _global_window WINDOW;
+    const u32 FRAME_DELAY;
     _game_map_data MAP_DATA;
     _game_state GameState;
+    u32 DelayFrames;
 } _global;
 
 // Access point to all global data

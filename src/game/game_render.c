@@ -67,3 +67,17 @@ void game_render_texture(SDL_Renderer *renderer, const SDL_Rect *rectCrop, const
     SDL_FreeSurface(image);
     SDL_DestroyTexture(texture);
 }
+
+
+void game_render_win(SDL_Renderer *renderer)
+{
+    SDL_Surface *image = IMG_Load("./img/victory.png");
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, image);
+
+    SDL_Rect wholeScreen = {0,0,GLOBAL.WINDOW.WIDTH,GLOBAL.WINDOW.HEIGHT};
+    
+    SDL_RenderCopy(renderer, texture, NULL, &wholeScreen);
+
+    SDL_FreeSurface(image);
+    SDL_DestroyTexture(texture);
+}

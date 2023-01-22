@@ -72,7 +72,7 @@ void game_win()
     u32 nextLevel = GLOBAL.GameState.CurrentLevel + 1;
     if (nextLevel >= MAPS_NUMBER)
     {
-        DEBUG_MSG("Absolute win");
+        GLOBAL.GameState.Won = true;
         return;
     }
     GLOBAL.GameState.CurrentLevel = nextLevel;
@@ -81,6 +81,5 @@ void game_win()
 
 void game_restart_level()
 {
-    GLOBAL.GameState.Retries ++;
     game_set_CurrentMap(GLOBAL.GameState.CurrentLevel);
 }

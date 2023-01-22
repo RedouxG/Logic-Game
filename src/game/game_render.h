@@ -22,4 +22,6 @@ void game_render_tile(i32 tileID, SDL_Renderer *renderer, SDL_Rect *rect);
 void game_render_texture(SDL_Renderer *renderer, const SDL_Rect *rectCrop, const SDL_Rect *rect,
     const char *imagePath);
 
+void game_render_win(SDL_Renderer *renderer);
+
 #endif
