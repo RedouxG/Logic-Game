@@ -1,5 +1,6 @@
 #include "game_render.h"
 
+
 void game_render_player(SDL_Renderer *renderer, const vec2 pos)
 {
     SDL_Rect rect = {pos.x*GLOBAL.MAP_DATA.TILE_WIDTH, pos.y*GLOBAL.MAP_DATA.TILE_HEIGHT,
@@ -24,6 +25,16 @@ void game_render_tile(i32 tileID, SDL_Renderer *renderer, SDL_Rect *rect)
         case TILE_BOULDER:
         {
             game_render_texture(renderer, NULL, rect, "./img/boulder.png"); 
+            break;
+        }
+        case TILE_OBSTACLE:
+        {
+            game_render_texture(renderer, NULL, rect, "./img/obstacle.png"); 
+            break;
+        }
+        case TILE_WIN:
+        {
+            game_render_texture(renderer, NULL, rect, "./img/win.png"); 
             break;
         }
     }

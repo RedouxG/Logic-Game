@@ -12,6 +12,8 @@
 // GLOBAL DATA
 // -------------------------------------------------
 
+extern const u32 MAPS_NUMBER;
+
 /* WINDOW DATA */
 typedef struct _global_window {
     const char *NAME;
@@ -24,7 +26,9 @@ typedef struct _global_window {
 typedef enum {
     TILE_FLOOR = 0, 
     TILE_WALL = 1, 
-    TILE_BOULDER = 2, 
+    TILE_BOULDER = 2,
+    TILE_OBSTACLE = 3, 
+    TILE_WIN = 8,
     TILE_PLAYER = 9
 } TILE_TYPES;
 
@@ -42,6 +46,8 @@ typedef struct _game_state {
     u32 CurrentLevel;
     i32 *CurrentMap;
     vec2 PlayerPos;
+    vec2 WinPos;
+    u32 Retries;
 } _game_state;
 
 

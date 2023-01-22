@@ -7,12 +7,12 @@
 _global GLOBAL = {
     .WINDOW = {
         .NAME = "TEST",
-        .WIDTH = 512, 
-        .HEIGHT = 512,
+        .WIDTH = 576, 
+        .HEIGHT = 576,
     },
     .MAP_DATA = {
-        .HEIGHT = 8,
-        .WIDTH = 8,
+        .HEIGHT = 9,
+        .WIDTH = 9,
         .TILE_HEIGHT = 64,
         .TILE_WIDTH = 64,
         .MapList = NULL,
@@ -20,6 +20,7 @@ _global GLOBAL = {
     .GameState = {
         .CurrentLevel = 0,
         .CurrentMap = NULL,
+        .Retries = 0
     },
 };
 
@@ -27,17 +28,30 @@ _global GLOBAL = {
 // MAPS
 // -------------------------------------------------
 
-const u32 MAPS_NUMBER = 1;
+const u32 MAPS_NUMBER = 2;
 
-const i32 GAME_MAP1[8][8] = {
-    {1,1,1,1,1,1,1,1},
-    {1,9,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,0,2,0,0,0,1},
-    {1,0,0,2,0,2,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1},
+const i32 GAME_MAP1[9][9] = {
+    {1,1,1,1,1,1,1,1,1},
+    {1,9,0,0,0,0,8,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,0,0,2,0,0,0,0,1},
+    {1,0,0,2,0,2,3,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1},
+};
+
+const i32 GAME_MAP2[9][9] = {
+    {1,1,1,1,1,1,1,1,1},
+    {1,9,0,0,0,2,8,0,1},
+    {1,0,0,0,0,2,0,0,1},
+    {1,0,0,2,2,2,0,0,1},
+    {1,0,0,2,2,2,0,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1},
 };
 
 // -------------------------------------------------
@@ -48,7 +62,9 @@ void init_game_data()
 {
     GLOBAL.MAP_DATA.MapList = malloc(MAPS_NUMBER * sizeof(i32*));
     GLOBAL.MAP_DATA.MapList[0] = (i32*)GAME_MAP1;
+    GLOBAL.MAP_DATA.MapList[1] = (i32*)GAME_MAP2;
 }
+
 
 void game_set_CurrentMap(size_t mapID)
 {
@@ -69,16 +85,19 @@ void game_set_CurrentMap(size_t mapID)
     GLOBAL.GameState.CurrentLevel = mapID;
     GLOBAL.GameState.CurrentMap = MapCopy;
 
-    // Search for player in map data
+    // Search for player and win in map data
     for (u32 w=0; w<GLOBAL.MAP_DATA.WIDTH; w++)
     {
         for (u32 h=0; h<GLOBAL.MAP_DATA.HEIGHT; h++)
         {
             if (MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_PLAYER)
             {
-                MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_FLOOR;
+                MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] = TILE_FLOOR;
                 GLOBAL.GameState.PlayerPos = (vec2){w,h};
-                break;
+            }
+            else if (MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_WIN)
+            {
+                GLOBAL.GameState.WinPos = (vec2){w,h};
             }
         }
     }

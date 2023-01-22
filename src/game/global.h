@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stddef.h>
+#include <math.h>
 
 // SDL2
 #include <SDL2/SDL.h>

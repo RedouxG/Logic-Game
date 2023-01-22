@@ -23,10 +23,11 @@ SDL_Renderer* init_renderer(SDL_Window *window)
 
 void handle_key_event(const u8* keysPressed)
 {
-    if (keysPressed[SDL_SCANCODE_A]) { game_move_player((vec2){-1,0}); }
-    if (keysPressed[SDL_SCANCODE_W]) { game_move_player((vec2){0,-1}); }
-    if (keysPressed[SDL_SCANCODE_S]) { game_move_player((vec2){0,1});  }
-    if (keysPressed[SDL_SCANCODE_D]) { game_move_player((vec2){1,0});  }
+    if (keysPressed[SDL_SCANCODE_A]) { game_move_player((vec2){-1,0}); } // Move left
+    if (keysPressed[SDL_SCANCODE_W]) { game_move_player((vec2){0,-1}); } // Move up
+    if (keysPressed[SDL_SCANCODE_S]) { game_move_player((vec2){0,1});  } // Move down
+    if (keysPressed[SDL_SCANCODE_D]) { game_move_player((vec2){1,0});  } // Move right
+    if (keysPressed[SDL_SCANCODE_R]) { game_restart_level(); } // Restart level
 }
 
 

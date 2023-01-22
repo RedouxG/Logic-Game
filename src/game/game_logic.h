@@ -19,5 +19,9 @@ void game_move_player(vec2 direction);
 
 bool game_move_boulder(vec2 fromPos, vec2 toPos);
 
+void game_win();
+
+void game_restart_level();
+
 
 #endif
