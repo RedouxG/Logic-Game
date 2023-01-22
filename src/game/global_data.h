@@ -12,8 +12,6 @@
 // GLOBAL DATA
 // -------------------------------------------------
 
-extern const u32 MAPS_NUMBER;
-
 /* WINDOW DATA */
 typedef struct _global_window {
     const char *NAME;
@@ -37,7 +35,7 @@ typedef struct _game_map_data {
     const i32 TILE_HEIGHT;
     const i32 WIDTH;
     const i32 HEIGHT;
-    i32 **MapList;
+    u32 MapsNumber;
 } _game_map_data;
 
 
@@ -68,5 +66,7 @@ extern _global GLOBAL;
 // -------------------------------------------------
 
 bool game_load_map(u32 level);
+
+u32 count_levels_in_dir();
 
 #endif

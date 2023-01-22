@@ -70,7 +70,7 @@ bool game_move_boulder(vec2 fromPos, vec2 toPos)
 void game_win()
 {
     u32 nextLevel = GLOBAL.GameState.CurrentLevel + 1;
-    if (nextLevel >= MAPS_NUMBER)
+    if (nextLevel >= GLOBAL.MAP_DATA.MapsNumber)
     {
         GLOBAL.GameState.Won = true;
         return;

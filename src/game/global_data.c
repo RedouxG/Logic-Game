@@ -1,8 +1,5 @@
 #include "global_data.h"
 
-// -------------------------------------------------
-// GLOBAL
-// -------------------------------------------------
 
 _global GLOBAL = {
     .WINDOW = {
@@ -15,6 +12,7 @@ _global GLOBAL = {
         .WIDTH = 9,
         .TILE_HEIGHT = 64,
         .TILE_WIDTH = 64,
+        .MapsNumber = 0,
     },
     .GameState = {
         .CurrentLevel = 0,
@@ -25,15 +23,22 @@ _global GLOBAL = {
     .FRAME_DELAY = 10,
 };
 
-// -------------------------------------------------
-// MAPS
-// -------------------------------------------------
 
-const u32 MAPS_NUMBER = 2;
+u32 count_levels_in_dir()
+{
+    u32 fileCount = 0;
+    char FileName[256];
 
-// -------------------------------------------------
-// FUNCTIONS
-// -------------------------------------------------
+    while(true)
+    {
+        sprintf(FileName,".\\levels\\%u.txt", fileCount);
+        FILE *file = fopen(FileName, "r");
+        if (!file) { break; }
+        fileCount++;
+    }
+
+    return fileCount;
+}
 
 
 bool game_load_map(u32 level)
