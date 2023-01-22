@@ -76,10 +76,10 @@ void game_win()
         return;
     }
     GLOBAL.GameState.CurrentLevel = nextLevel;
-    game_set_CurrentMap(GLOBAL.GameState.CurrentLevel);
+    game_load_map(GLOBAL.GameState.CurrentLevel);
 }
 
 void game_restart_level()
 {
-    game_set_CurrentMap(GLOBAL.GameState.CurrentLevel);
+    game_load_map(GLOBAL.GameState.CurrentLevel);
 }

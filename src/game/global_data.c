@@ -15,7 +15,6 @@ _global GLOBAL = {
         .WIDTH = 9,
         .TILE_HEIGHT = 64,
         .TILE_WIDTH = 64,
-        .MapList = NULL,
     },
     .GameState = {
         .CurrentLevel = 0,
@@ -30,107 +29,61 @@ _global GLOBAL = {
 // MAPS
 // -------------------------------------------------
 
-const u32 MAPS_NUMBER = 4;
-
-const i32 GAME_MAP1[9][9] = {
-    {1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,9,0,0,0,0,0,8,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1},
-};
-
-const i32 GAME_MAP2[9][9] = {
-    {1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,9,0,0,2,0,0,8,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1},
-};
-
-
-const i32 GAME_MAP3[9][9] = {
-    {1,1,1,1,1,1,1,1,1},
-    {1,0,0,3,2,0,0,0,1},
-    {1,0,0,0,2,2,0,0,1},
-    {1,0,0,3,2,0,0,0,1},
-    {1,9,0,0,2,2,0,8,1},
-    {1,0,0,3,2,0,0,0,1},
-    {1,0,0,0,2,2,0,0,1},
-    {1,0,0,0,2,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1},
-};
-
-
-const i32 GAME_MAP4[9][9] = {
-    {1,1,1,1,1,1,1,1,1},
-    {1,0,3,0,0,0,3,8,1},
-    {1,0,3,0,3,0,3,0,1},
-    {1,0,3,0,3,0,3,0,1},
-    {1,9,3,0,3,0,3,0,1},
-    {1,0,3,0,3,0,3,0,1},
-    {1,0,3,0,3,0,3,0,1},
-    {1,0,0,0,3,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1},
-};
-
+const u32 MAPS_NUMBER = 2;
 
 // -------------------------------------------------
 // FUNCTIONS
 // -------------------------------------------------
 
-void init_game_data()
+
+bool game_load_map(u32 level)
 {
-    GLOBAL.MAP_DATA.MapList = malloc(MAPS_NUMBER * sizeof(i32*));
-    GLOBAL.MAP_DATA.MapList[0] = (i32*)GAME_MAP1;
-    GLOBAL.MAP_DATA.MapList[1] = (i32*)GAME_MAP2;
-    GLOBAL.MAP_DATA.MapList[2] = (i32*)GAME_MAP3;
-    GLOBAL.MAP_DATA.MapList[3] = (i32*)GAME_MAP4;
-}
+    char FileName[256];
+    sprintf(FileName,".\\levels\\%u.txt",level);
 
+    FILE *file = fopen(FileName, "r");
+    if (!file)
+    { ERROR_MSG("Unable to load file: %s", FileName); return false; }
 
-void game_set_CurrentMap(size_t mapID)
-{
-    if (mapID > MAPS_NUMBER - 1) 
-    { ERROR_EXIT("Failed to load map ID: %d\n", (i32)mapID); }
-
-    // Unload old map and load new map
-    free_and_NULL(GLOBAL.GameState.CurrentMap);
     const size_t MapSizeBytes = sizeof(i32) * GLOBAL.MAP_DATA.WIDTH * GLOBAL.MAP_DATA.HEIGHT;
-    i32 *MapCopy = malloc(MapSizeBytes);
-    
-    if (MapCopy == NULL) 
-    { ERROR_EXIT("Failed to malloc MapCopy"); }
+    i32 *NewMap = malloc(MapSizeBytes);
+    if (NewMap == NULL) 
+    { ERROR_MSG("Failed to malloc NewMap"); return false; }
 
-    memcpy(MapCopy, GLOBAL.MAP_DATA.MapList[mapID], MapSizeBytes);
+    char ch = ' ';
+    u32 index = 0;
+    while (ch != EOF)
+    {
+        ch = fgetc(file);
+        if( !(ch >= '0' && ch <= '9') ) { continue; }
 
-    // Set Data
-    GLOBAL.GameState.CurrentLevel = mapID;
-    GLOBAL.GameState.CurrentMap = MapCopy;
+        u32 tileID;
+        sscanf(&ch, "%u", &tileID);
+        NewMap[index] = tileID;
+
+        index++;
+        if (index >= MapSizeBytes) { break; }
+    }
+
+    GLOBAL.GameState.CurrentLevel = level;      // Assign level number
+    free_and_NULL(GLOBAL.GameState.CurrentMap); // Get rid of old map
+    GLOBAL.GameState.CurrentMap = NewMap;       // Assign new map
 
     // Search for player and win in map data
     for (u32 w=0; w<GLOBAL.MAP_DATA.WIDTH; w++)
     {
         for (u32 h=0; h<GLOBAL.MAP_DATA.HEIGHT; h++)
         {
-            if (MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_PLAYER)
+            if (NewMap[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_PLAYER)
             {
-                MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] = TILE_FLOOR;
+                NewMap[h*GLOBAL.MAP_DATA.WIDTH + w] = TILE_FLOOR;
                 GLOBAL.GameState.PlayerPos = (vec2){w,h};
             }
-            else if (MapCopy[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_WIN)
+            else if (NewMap[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_WIN)
             {
                 GLOBAL.GameState.WinPos = (vec2){w,h};
             }
         }
     }
-    
+    return true;
 }

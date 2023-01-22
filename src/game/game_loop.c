@@ -37,8 +37,6 @@ void handle_key_event(const u8* keysPressed)
 
 void start_game_loop()
 {
-    init_game_data();
-
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     { ERROR_EXIT("Unable to init SDL2 %s\n", SDL_GetError()); }
 
@@ -48,7 +46,7 @@ void start_game_loop()
     SDL_Window *window = init_window();
     SDL_Renderer *renderer = init_renderer(window);
 
-    game_set_CurrentMap(0);
+    game_load_map(0);
 
     // Game loop
     SDL_Event event;

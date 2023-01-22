@@ -67,8 +67,6 @@ extern _global GLOBAL;
 // FUNCTIONS
 // -------------------------------------------------
 
-void init_game_data();
-
-void game_set_CurrentMap(size_t mapID);
+bool game_load_map(u32 level);
 
 #endif
