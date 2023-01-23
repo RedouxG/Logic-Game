@@ -48,7 +48,7 @@ void start_game_loop()
     SDL_Window *window = init_window();
     SDL_Renderer *renderer = init_renderer(window);
 
-    game_load_map(10);
+    game_load_map(0);
 
     // Game loop
     SDL_Event event;
