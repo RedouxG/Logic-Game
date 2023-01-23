@@ -3,7 +3,7 @@
 
 _global GLOBAL = {
     .WINDOW = {
-        .NAME = "TEST",
+        .NAME = "Simple Logic Game",
         .WIDTH = 576, 
         .HEIGHT = 576,
     },
@@ -75,9 +75,9 @@ bool game_load_map(u32 level)
     GLOBAL.GameState.CurrentMap = NewMap;       // Assign new map
 
     // Search for player and win in map data
-    for (u32 w=0; w<GLOBAL.MAP_DATA.WIDTH; w++)
+    for (i32 w=0; w<GLOBAL.MAP_DATA.WIDTH; w++)
     {
-        for (u32 h=0; h<GLOBAL.MAP_DATA.HEIGHT; h++)
+        for (i32 h=0; h<GLOBAL.MAP_DATA.HEIGHT; h++)
         {
             if (NewMap[h*GLOBAL.MAP_DATA.WIDTH + w] == TILE_PLAYER)
             {
