@@ -1,3 +1,7 @@
+// -------------------------------------------------
+// Included in all files that need access to game data
+// -------------------------------------------------
+
 #pragma once
 #ifndef GAME_DATA
 #define GAME_DATA
@@ -12,7 +16,7 @@
 // GLOBAL DATA
 // -------------------------------------------------
 
-/* WINDOW DATA */
+// Window constant values
 typedef struct _global_window {
     const char *NAME;
     const i32 WIDTH;
@@ -20,7 +24,7 @@ typedef struct _global_window {
 } _global_window;
 
 
-/* MAP DATA */
+// Tiles enum
 typedef enum {
     TILE_FLOOR = 0, 
     TILE_WALL = 1, 
@@ -30,6 +34,7 @@ typedef enum {
     TILE_PLAYER = 9
 } TILE_TYPES;
 
+// Data regardnig game map
 typedef struct _game_map_data {
     const i32 TILE_WIDTH;
     const i32 TILE_HEIGHT;
@@ -39,7 +44,7 @@ typedef struct _game_map_data {
 } _game_map_data;
 
 
-/* GAME STATE */
+// State of the game (player position ect.)
 typedef struct _game_state {
     u32 CurrentLevel;
     i32 *CurrentMap;
@@ -49,7 +54,7 @@ typedef struct _game_state {
 } _game_state;
 
 
-/* GLOBAL DATA */
+// Global access point to data meant to be accessible globaly
 typedef struct _global {
     const _global_window WINDOW;
     const u32 FRAME_DELAY;
@@ -58,15 +63,20 @@ typedef struct _global {
     u32 DelayFrames;
 } _global;
 
-// Access point to all global data
+// Access point to all global data (define)
 extern _global GLOBAL;
 
 // -------------------------------------------------
 // FUNCTIONS
 // -------------------------------------------------
 
+// Loads a map from ./levels file
+// Level format is 9x9 matrix of chars converted to numbers
+// Numbers in matrix corespond to tile IDs (look TILE_TYPES enum)
 bool game_load_map(u32 level);
 
+
+// Counts how many levels are in ./levels folder
 u32 count_levels_in_dir();
 
 #endif

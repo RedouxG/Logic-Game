@@ -1,3 +1,7 @@
+// -------------------------------------------------
+// Header included in all files (global includes and typedefs)
+// -------------------------------------------------
+
 #pragma once
 #ifndef GAME_GLOBAL
 #define GAME_GLOBAL
@@ -56,6 +60,7 @@ typedef int64_t i64;
 typedef float  f32;
 typedef double f64;
 
+// Simple Vector2
 typedef struct vec2 {
     i32 x;
     i32 y;
