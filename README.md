@@ -12,7 +12,7 @@ Controls:
 Building
 -----------
 Building the game requires: 
- - MinGw (gcc)
+ - MinGw (gcc, make)
  - [SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.26.2) and [SDL2_image](https://github.com/libsdl-org/SDL_image/releases/tag/release-2.6.2) library. (both devel-mingw x86_64 version)
 
 To setup compilation: 
@@ -21,4 +21,4 @@ To setup compilation:
 - Move all .dll files to the project root directory
 
 Compilation:
-- Run build.bat script
+- Run `make -f build.mk` command
