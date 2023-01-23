@@ -38,7 +38,7 @@ void handle_key_event(const u8* keysPressed)
 void start_game_loop()
 {
     GLOBAL.MAP_DATA.MapsNumber = count_levels_in_dir();
-    DEBUG_MSG("%u",GLOBAL.MAP_DATA.MapsNumber);
+    
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     { ERROR_EXIT("Unable to init SDL2 %s\n", SDL_GetError()); }
 
@@ -48,7 +48,7 @@ void start_game_loop()
     SDL_Window *window = init_window();
     SDL_Renderer *renderer = init_renderer(window);
 
-    game_load_map(0);
+    game_load_map(10);
 
     // Game loop
     SDL_Event event;

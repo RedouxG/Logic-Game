@@ -60,7 +60,15 @@ void game_move_player(vec2 direction)
 
 bool game_move_boulder(vec2 fromPos, vec2 toPos)
 {
-    if(!(game_get_tile_at(toPos) == TILE_FLOOR)) { return false; }
+    if(toPos.x<0 || toPos.x>(GLOBAL.MAP_DATA.WIDTH-1))
+    { return false; }
+
+    if(toPos.y<0 || toPos.y>(GLOBAL.MAP_DATA.HEIGHT-1))
+    { return false; }
+
+    if(!(game_get_tile_at(toPos) == TILE_FLOOR || game_get_tile_at(toPos) == TILE_OBSTACLE)) 
+    { return false; }
+
     game_set_tile_at(TILE_FLOOR, fromPos);
     game_set_tile_at(TILE_BOULDER, toPos);
     return true;
