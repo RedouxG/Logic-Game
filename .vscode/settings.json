@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "dsl_string.h": "c",
-        "game_data.h": "c",
-        "global_data.h": "c"
-    }
-}
