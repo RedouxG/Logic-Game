@@ -2,6 +2,13 @@ About
 -----
 Small logic game made in SDL2
 
+Controls:
+- W - Move up
+- A - Move left
+- S - Move down
+- D - Move right
+- R - Restart level
+
 Building
 -----------
 Building the game requires: 
