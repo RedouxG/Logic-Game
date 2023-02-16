@@ -31,7 +31,7 @@ u32 count_levels_in_dir()
 
     while(true)
     {
-        sprintf(FileName,".\\levels\\%u.txt", fileCount);
+        sprintf(FileName,"./levels/%u.txt", fileCount);
         FILE *file = fopen(FileName, "r");
         if (!file) { break; }
         fileCount++;
@@ -44,7 +44,7 @@ u32 count_levels_in_dir()
 bool game_load_map(u32 level)
 {
     char FileName[256];
-    sprintf(FileName,".\\levels\\%u.txt",level);
+    sprintf(FileName,"./levels/%u.txt",level);
 
     FILE *file = fopen(FileName, "r");
     if (!file)
